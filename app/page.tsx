@@ -1,65 +1,67 @@
-import Image from "next/image";
+"use client";
+
+import { supabase } from "@/lib/supabase";
+import { useEffect } from "react";
 
 export default function Home() {
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) window.location.href = "/dashboard";
+    });
+  }, []);
+
+  const login = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="min-h-screen bg-black text-gray-200 flex items-center justify-center px-4">
+      {/* Card */}
+      <div className="w-full max-w-md bg-[#111] border border-gray-800 rounded-2xl p-8 shadow-lg">
+        {/* Logo / Title */}
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-semibold tracking-wide">
+            Smart Bookmarks
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-gray-500 text-sm mt-2">
+            Save and organize your favorite links
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        {/* Google Login */}
+        <button
+          onClick={login}
+          className="w-full flex items-center justify-center gap-3 bg-white text-black py-3 rounded-lg font-medium hover:opacity-90 transition"
+        >
+          {/* Google Icon */}
+          <svg width="18" height="18" viewBox="0 0 48 48">
+            <path
+              fill="#EA4335"
+              d="M24 9.5c3.54 0 6.72 1.22 9.22 3.61l6.9-6.9C35.96 2.54 30.38 0 24 0 14.62 0 6.47 5.48 2.65 13.44l8.06 6.26C12.67 13.22 17.84 9.5 24 9.5z"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+            <path
+              fill="#4285F4"
+              d="M46.5 24.5c0-1.63-.14-3.2-.4-4.72H24v9h12.7c-.55 2.96-2.2 5.47-4.7 7.14l7.25 5.64C43.7 37.56 46.5 31.52 46.5 24.5z"
+            />
+            <path
+              fill="#FBBC05"
+              d="M10.7 28.7a14.5 14.5 0 010-9.4l-8.06-6.26A23.98 23.98 0 000 24c0 3.93.94 7.64 2.65 10.96l8.05-6.26z"
+            />
+            <path
+              fill="#34A853"
+              d="M24 48c6.38 0 11.73-2.1 15.64-5.7l-7.25-5.64c-2.02 1.36-4.6 2.16-8.39 2.16-6.16 0-11.33-3.72-13.29-9.2l-8.05 6.26C6.47 42.52 14.62 48 24 48z"
+            />
+          </svg>
+          Continue with Google
+        </button>
+
+        {/* Footer */}
+        <p className="text-xs text-gray-600 text-center mt-6">
+          Secure login powered by Google
+        </p>
+      </div>
     </div>
   );
 }
