@@ -28,11 +28,11 @@ Deployment: Vercel
 
 Table: bookmarks
 
-- id (uuid, primary key)
-- user_id (uuid, foreign key referencing auth.users)
-- title (text)
-- url (text)
-- created_at (timestamp)
+* id (uuid, primary key)
+* user_id (uuid, foreign key referencing auth.users)
+* title (text)
+* url (text)
+* created_at (timestamp)
 
 Row Level Security ensures users can only access and modify their own bookmarks.
 
@@ -71,11 +71,12 @@ The application is deployed on Vercel. Environment variables were configured in 
 
 ## Challenges Faced and Solutions
 
-1. OAuth Redirect Issue After Deployment
-After deploying, Google OAuth redirected users to localhost instead of the production domain. This occurred because the Site URL in Supabase Authentication settings was still configured for local development. Updating the Site URL to the deployed Vercel domain and using a dynamic redirect based on window.location.origin resolved the issue.
+1. **OAuth Redirect Issue After Deployment**
+   After deploying, Google OAuth redirected users to localhost instead of the production domain. This occurred because the Site URL in Supabase Authentication settings was still configured for local development. Updating the Site URL to the deployed Vercel domain and using a dynamic redirect based on `window.location.origin` resolved the issue.
 
-2. Realtime Updates Not Reflecting Across Tabs
-Initially, bookmarks added in one tab were not appearing instantly in another. The issue was caused by an unstable realtime connection and inefficient UI updates. Enabling realtime at the database table level and updating the frontend state directly from realtime events ensured consistent live synchronization.
+2. **Realtime Updates Not Reflecting Across Tabs**
+   Initially, bookmarks added in one tab were not appearing instantly in another. The issue was caused by an unstable realtime connection and inefficient UI updates. Enabling realtime at the database table level and updating the frontend state directly from realtime events ensured consistent live synchronization.
+
 ---
 
 ## Author
