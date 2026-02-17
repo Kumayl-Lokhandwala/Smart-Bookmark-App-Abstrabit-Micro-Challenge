@@ -71,10 +71,11 @@ The application is deployed on Vercel. Environment variables were configured in 
 
 ## Challenges Faced and Solutions
 
-During deployment, Google OAuth initially redirected users to localhost instead of the production domain. This occurred because the Site URL in Supabase Authentication settings was still configured for local development. Updating the Site URL to the deployed Vercel domain and using a dynamic redirect based on `window.location.origin` resolved the issue.
+1. OAuth Redirect Issue After Deployment
+After deploying, Google OAuth redirected users to localhost instead of the production domain. This occurred because the Site URL in Supabase Authentication settings was still configured for local development. Updating the Site URL to the deployed Vercel domain and using a dynamic redirect based on window.location.origin resolved the issue.
 
-Another challenge involved real-time synchronization not updating the interface across tabs. This was traced to a realtime connection issue and inefficient state updates. Enabling realtime at the table level and updating the UI directly from realtime events ensured reliable live synchronization.
-
+2. Realtime Updates Not Reflecting Across Tabs
+Initially, bookmarks added in one tab were not appearing instantly in another. The issue was caused by an unstable realtime connection and inefficient UI updates. Enabling realtime at the database table level and updating the frontend state directly from realtime events ensured consistent live synchronization.
 ---
 
 ## Author
